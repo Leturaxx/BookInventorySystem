@@ -1,0 +1,293 @@
+
+/* GENERAL SETTINGS */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #2d2926;
+    background: #f7f4ef;
+}
+
+/* NEW TWO-COLUMN LAYOUT */
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 50px 35px;
+
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    grid-template-areas:
+        "title title"
+        "intro intro"
+        "editor inventory"
+        "notice notice";
+    gap: 15px 30px;
+    align-items: stretch;
+}
+
+/* MAIN HEADER */
+h1 {
+    grid-area: title;
+    font-family: Georgia, serif;
+    font-size: 48px;
+    font-weight: normal;
+    letter-spacing: -1.5px;
+    margin: 0;
+    color: #292724;
+}
+
+h1::before {
+    content: "THE READING ROOM / INVENTORY";
+    display: block;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #9a5049;
+    margin-bottom: 12px;
+}
+
+.container > p:not(#message) {
+    grid-area: intro;
+    margin: 0 0 25px;
+    color: #81786f;
+    font-size: 15px;
+}
+
+/* GENERAL CARDS */
+.card {
+    border-radius: 14px;
+    padding: 30px;
+}
+
+/* LEFT PANEL: ADD / EDIT BOOK */
+.container > .card:first-of-type {
+    grid-area: editor;
+    background: #642f38;
+    color: #fff8f1;
+    box-shadow: 0 12px 25px #642f381c;
+}
+
+.container > .card:first-of-type h2 {
+    color: #fff8f1;
+    font-family: Georgia, serif;
+    font-weight: normal;
+    font-size: 27px;
+    margin: 0 0 25px;
+}
+
+/* STACK FORM INPUTS VERTICALLY */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #e9dacf;
+    border-radius: 7px;
+    background: #fff9f2;
+    color: #292724;
+    font-size: 14px;
+    outline: none;
+}
+
+input::placeholder {
+    color: #958a80;
+}
+
+input:focus {
+    border-color: #d9b989;
+    box-shadow: 0 0 0 3px #d9b98940;
+}
+
+/* MAIN SAVE BUTTON */
+#saveButton {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 7px;
+    background: #d9b989;
+    color: #332723;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#saveButton:hover {
+    background: #f0d4a9;
+    transform: translateY(-2px);
+}
+
+/* CANCEL BUTTON */
+#cancelButton {
+    width: 100%;
+    padding: 13px;
+    background: transparent;
+    border: 1px solid #c9aaa7;
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* RIGHT PANEL: BOOK COLLECTION */
+.container > .card:last-of-type {
+    grid-area: inventory;
+    min-width: 0;
+    background: #ffffff;
+    border: 1px solid #ece6dd;
+    box-shadow: 0 8px 25px #372d2310;
+}
+
+.container > .card:last-of-type h2 {
+    margin: 0 0 25px;
+    font-family: Georgia, serif;
+    font-size: 27px;
+    font-weight: normal;
+    color: #302a27;
+}
+
+/* TABLE */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+thead {
+    background: #f7f4ef;
+}
+
+th {
+    text-align: left;
+    padding: 16px 12px;
+    color: #76685f;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td {
+    padding: 18px 12px;
+    border-bottom: 1px solid #eee8df;
+    font-size: 14px;
+    color: #36302c;
+}
+
+tbody tr:hover {
+    background: #faf7f2;
+}
+
+/* EDIT BUTTON */
+td button {
+    background: #efe9e0;
+    color: #5c443b;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    margin: 3px;
+}
+
+td button:hover {
+    background: #e0d4c5;
+}
+
+/* DELETE BUTTON */
+td button.delete {
+    background: #f9e9e7;
+    color: #a04444;
+}
+
+td button.delete:hover {
+    background: #f1d2cd;
+}
+
+/* STATUS MESSAGES */
+#message {
+    grid-area: notice;
+    color: #642f38;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+/* MOBILE AND TABLET LAYOUT */
+@media (max-width: 900px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "title"
+            "intro"
+            "editor"
+            "inventory"
+            "notice";
+        padding: 25px 15px;
+        gap: 18px;
+    }
+
+    h1 {
+        font-size: 35px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .container > .card:first-of-type {
+        width: 100%;
+    }
+    /* Center the main heading */
+h1 {
+    .container > h1 {
+    grid-area: title;
+    text-align: center;
+    justify-self: stretch;
+    width: 100%;
+    margin: 0;
+}
+}
+/* CENTER THE MAIN HEADING */
+.container > h1 {
+    grid-area: title;
+    text-align: center;
+    justify-self: stretch;
+    width: 100%;
+    margin: 0;
+}
+
+/* CENTER THE SMALL TEXT ABOVE THE HEADING */
+.container > h1::before {
+    text-align: center;
+}
+
+/* CENTER THE SUBHEADING */
+.container > p:not(#message) {
+    grid-area: intro;
+    text-align: center;
+    justify-self: stretch;
+    width: 100%;
+    margin: 0 0 25px;
+}
+/* Make both collection boxes equal in height */
+.container > .card:first-of-type {
+    align-self: stretch;
+}
+}
