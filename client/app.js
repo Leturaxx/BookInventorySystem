@@ -1,4 +1,4 @@
-
+let selectedBookId = null;
 const API_URL = "http://localhost:5234/api/books";
 
 const form = document.getElementById("bookForm");
@@ -24,10 +24,15 @@ async function loadBooks() {
         }
 
         const books = await response.json();
+        
+
+        // Hide every book except the one searched for
+
+   
 
         table.innerHTML = "";
 
-        books.forEach(book => {
+            books.forEach(book => {
             const row = document.createElement("tr");
 
             const actions = document.createElement("td");
@@ -41,7 +46,7 @@ async function loadBooks() {
             deleteButton.className = "delete";
             deleteButton.onclick = () => deleteBook(book.id);
 
-            actions.append(editButton, deleteButton);
+           actions.append(editButton, deleteButton);
 
             row.append(
                 makeCell(book.id),
@@ -102,6 +107,35 @@ form.addEventListener("submit", async function(event) {
     }
 });
 
+async function viewBook(id) {
+    try {
+        const response = await fetch(`${API_URL}/${id}`);
+
+        if (!response.ok) {
+            throw new Error("Book not found");
+        }
+
+        const book = await response.json();
+
+        selectedBookId = Number(book.id);
+        await loadBooks();
+
+        document.getElementById("detailsHeading").textContent =
+            book.title;
+
+        document.getElementById("detailsContent").textContent =
+            `Author: ${book.author}
+Price: ₦${Number(book.price).toLocaleString()}
+Description: ${book.description || "No description available."}`;
+
+        document.getElementById("bookDetails").hidden = false;
+
+    } catch (error) {
+        message.textContent = "Error: " + error.message;
+    }
+}
+
+
 // Fill the form for editing
 function editBook(book) {
     editingId = book.id;
@@ -158,3 +192,55 @@ document.getElementById("cancelButton").onclick = resetForm;
 
 // Display books when the website opens
 loadBooks();
+
+
+document.getElementById("searchBookButton").onclick = async function () {
+
+    const id = document.getElementById("searchBookId").value;
+    const details = document.getElementById("bookDetails");
+
+    details.hidden = true;
+
+    if (!id || Number(id) < 1 || !Number.isInteger(Number(id))) {
+        message.textContent = "Please enter a valid Book ID.";
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/${id}`);
+
+        if (response.status === 404) {
+            message.textContent = "Book not found.";
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Could not retrieve book.");
+        }
+
+        const book = await response.json();
+
+        document.getElementById("detailsHeading").textContent = book.title;
+
+        document.getElementById("detailsContent").textContent =
+            `Book ID: ${book.id}
+Author: ${book.author}
+Price: ₦${Number(book.price).toLocaleString()}
+Description: ${book.description || "No description available."}`;
+
+        details.hidden = false;
+        message.textContent = "";
+
+    } catch (error) {
+        message.textContent = "Error: " + error.message;
+    }
+};
+document.getElementById("searchBookId").addEventListener("input", async function () {
+    if (this.value.trim() === "") {
+        selectedBookId = null;
+        document.getElementById("bookDetails").hidden = true;
+        message.textContent = "";
+        await loadBooks();
+    }
+});
+

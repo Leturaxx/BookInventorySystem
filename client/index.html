@@ -40,6 +40,21 @@
         <section class="card">
             <h2>Library Collection</h2>
 
+<div class="book-search">
+    <input type="number" id="searchBookId"
+           placeholder="Enter Book ID" min="1">
+
+    <button type="button" id="searchBookButton">
+        Search Book
+    </button>
+</div>
+
+<div id="bookDetails" class="book-details" hidden>
+    <h3 id="detailsHeading"></h3>
+    <p id="detailsContent"></p>
+</div>
+
+
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -54,6 +69,10 @@
 
                     <tbody id="bookTable"></tbody>
                 </table>
+            </div>
+                    <div id="bookDetails" class="book-details" hidden>
+                    <h3 id="detailsHeading">Book Details</h3>
+                <p id="detailsContent"></p>
             </div>
         </section>
 
